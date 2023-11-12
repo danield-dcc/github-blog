@@ -11,6 +11,7 @@ export const Container = styled.div`
   border-radius: 10px;
   padding: 32px;
   margin-bottom: 32px;
+  cursor: pointer;
 `
 
 export const CardHeader = styled.div`

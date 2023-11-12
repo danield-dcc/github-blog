@@ -5,7 +5,7 @@ export const Container = styled.div`
   flex-direction: column;
 `
 
-export const InputContainer = styled.div`
+export const InputContainer = styled.form`
   display: flex;
   flex-direction: column;
   margin-top: 72px;

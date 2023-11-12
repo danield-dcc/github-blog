@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const Container = styled.div`
@@ -21,6 +22,7 @@ export const GoBack = styled.div`
   display: flex;
   align-items: center;
   gap: 3.5px;
+  cursor: pointer;
   svg {
     color: ${(props) => props.theme.blue};
     width: 12px;
@@ -34,10 +36,13 @@ export const HeaderText = styled.p`
   color: ${(props) => props.theme.blue};
 `
 
-export const GoToGithub = styled.div`
+export const GoToGithub = styled(Link)`
   display: flex;
   align-items: center;
   gap: 3.5px;
+  cursor: pointer;
+  text-decoration: none;
+
   svg {
     color: ${(props) => props.theme.blue};
     width: 12px;

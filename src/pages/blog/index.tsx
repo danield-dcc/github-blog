@@ -10,26 +10,73 @@ import {
   LabelPublications,
   LabelTittle,
 } from './styles'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+const searchFormSchema = z.object({
+  query: z.string(),
+})
+
+type searchFormInputs = z.infer<typeof searchFormSchema>
 
 export function Blog() {
-  const { userPosts } = useUserBlogContext()
+  const { userPosts, searchPosts, fetchUserPosts } = useUserBlogContext()
+  const { register, handleSubmit, watch } = useForm<searchFormInputs>({
+    mode: 'onChange',
+    resolver: zodResolver(searchFormSchema),
+  })
+
+  async function handleSearchPosts(data: searchFormInputs) {
+    if (!data.query) {
+      fetchUserPosts()
+      return
+    }
+    await searchPosts(data.query)
+  }
+
+  function debounce(func, timeout = 1000) {
+    let timer: number | undefined
+    return (...args) => {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        func.apply(this, args)
+      }, timeout)
+    }
+  }
+
+  function saveInput() {
+    const input = watch()
+    handleSearchPosts(input)
+  }
+
+  const processChange = debounce(() => saveInput())
+
   return (
     <Container>
       <UserProfile />
 
-      {/* input */}
-      <InputContainer>
+      <InputContainer onSubmit={handleSubmit(handleSearchPosts)}>
         <Label>
           <LabelTittle>Publicações</LabelTittle>
-          <LabelPublications>6 Publicações</LabelPublications>
+          <LabelPublications>{userPosts.length} Publicações</LabelPublications>
         </Label>
-        <LabelInput placeholder="Buscar conteúdo" />
+        <LabelInput
+          placeholder="Buscar conteúdo"
+          {...register('query')}
+          onKeyUp={(e) => processChange(e)}
+        />
       </InputContainer>
 
-      {/* card */}
       <CardWrapper>
         {userPosts?.map(({ id, body, createdAt, title }) => (
-          <BlogCard key={id} body={body} createdAt={createdAt} title={title} />
+          <BlogCard
+            key={id}
+            body={body}
+            createdAt={createdAt}
+            title={title}
+            id={id}
+          />
         ))}
       </CardWrapper>
     </Container>

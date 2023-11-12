@@ -8,14 +8,18 @@ import {
 
 import { format, formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
+import { useNavigate } from 'react-router-dom'
+import Markdown from 'react-markdown'
 
 interface BlogCardProps {
+  id: number
   title: string
   body: string
   createdAt: string
 }
 
-export function BlogCard({ body, createdAt, title }: BlogCardProps) {
+export function BlogCard({ body, createdAt, title, id }: BlogCardProps) {
+  const navigate = useNavigate()
   const publishedDateFormatted = format(
     new Date(createdAt),
     "d 'de' LLLL 'às' HH:mm'h'",
@@ -33,8 +37,12 @@ export function BlogCard({ body, createdAt, title }: BlogCardProps) {
     return body?.slice(0, 172).concat('...')
   }
 
+  function handleSelectedPost(id: number) {
+    navigate(`post/${id}`)
+  }
+
   return (
-    <Container>
+    <Container onClick={() => handleSelectedPost(id)}>
       <CardHeader>
         <HeaderTittle>{title}</HeaderTittle>
         <HeaderTime
@@ -44,7 +52,9 @@ export function BlogCard({ body, createdAt, title }: BlogCardProps) {
           <p>{publishedDateRelativeToNow}</p>
         </HeaderTime>
       </CardHeader>
-      <CardContent>{handleFormatInitialContent(body)}</CardContent>
+      <CardContent>
+        <Markdown>{handleFormatInitialContent(body)}</Markdown>
+      </CardContent>
     </Container>
   )
 }

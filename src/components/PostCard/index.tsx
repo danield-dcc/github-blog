@@ -11,16 +11,31 @@ import { CaretLeft, ArrowSquareOut } from 'phosphor-react'
 import githubImg from '../../assets/UserProfile/github.svg'
 import calendarImg from '../../assets/Post/calendar.svg'
 import CommentImg from '../../assets/Post/comment.svg'
+import { useNavigate } from 'react-router-dom'
 
-export function PostCard() {
+import { useUserBlogContext } from '../../context/UserBlogContext'
+
+interface PostCardProps {
+  issueNumber?: string
+}
+
+export function PostCard({ issueNumber }: PostCardProps) {
+  const { repo, username } = useUserBlogContext()
+  const navigate = useNavigate()
+  function handleGoBackButton() {
+    navigate(-1)
+  }
+
   return (
     <Container>
       <Header>
-        <GoBack>
+        <GoBack onClick={handleGoBackButton}>
           <CaretLeft />
           <HeaderText>VOLTAR</HeaderText>
         </GoBack>
-        <GoToGithub>
+        <GoToGithub
+          to={`https://github.com/${username}/${repo}/issues/${issueNumber}`}
+        >
           <HeaderText>VER NO GITHUB</HeaderText>
           <ArrowSquareOut />
         </GoToGithub>
