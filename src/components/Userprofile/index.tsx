@@ -16,13 +16,14 @@ import { useUserBlogContext } from '../../context/UserBlogContext'
 
 export function UserProfile() {
   const { userData } = useUserBlogContext()
+
   return (
     <Container>
       <ImageCard src={userData?.avatarUrl} alt="" />
       <Content>
         <CardTop>
           <Tittle>{userData?.name}</Tittle>
-          <TittleLink>
+          <TittleLink to={userData.htmlUrl} target="_blank">
             <p>GITHUB</p>
             <img src={linkImg} alt="" />
           </TittleLink>

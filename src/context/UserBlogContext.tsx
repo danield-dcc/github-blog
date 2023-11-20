@@ -115,7 +115,6 @@ export function UserBlogProvider({ children }: { children: ReactNode }) {
       },
     )
 
-    console.log('queryPosts ==>', queryPosts)
     setUserPosts(postsData)
   }
 
@@ -124,7 +123,6 @@ export function UserBlogProvider({ children }: { children: ReactNode }) {
       `/repos/${username}/${repo}/issues/${issueNumber}`,
     )
 
-    console.log('userPosts ==>', userPosts)
     return userPosts
   }
 
@@ -149,4 +147,6 @@ export function UserBlogProvider({ children }: { children: ReactNode }) {
   )
 }
 
-export const useUserBlogContext = () => useContext(UserBlogContext)
+export function useUserBlogContext() {
+  return useContext(UserBlogContext)
+}

@@ -14,13 +14,15 @@ import CommentImg from '../../assets/Post/comment.svg'
 import { useNavigate } from 'react-router-dom'
 
 import { useUserBlogContext } from '../../context/UserBlogContext'
+import { PublishedDateRelativeToNow } from '../../utils/PublishedDateFormatted'
 
 interface PostCardProps {
   issueNumber?: string
+  createAt: string
 }
 
-export function PostCard({ issueNumber }: PostCardProps) {
-  const { repo, username } = useUserBlogContext()
+export function PostCard({ issueNumber, createAt }: PostCardProps) {
+  const { repo, username, userData } = useUserBlogContext()
   const navigate = useNavigate()
   function handleGoBackButton() {
     navigate(-1)
@@ -35,6 +37,7 @@ export function PostCard({ issueNumber }: PostCardProps) {
         </GoBack>
         <GoToGithub
           to={`https://github.com/${username}/${repo}/issues/${issueNumber}`}
+          target="_blank"
         >
           <HeaderText>VER NO GITHUB</HeaderText>
           <ArrowSquareOut />
@@ -44,11 +47,11 @@ export function PostCard({ issueNumber }: PostCardProps) {
       <Footer>
         <span>
           <img src={githubImg} alt="" />
-          <p>cameronwll</p>
+          <p>{userData?.login}</p>
         </span>
         <span>
           <img src={calendarImg} alt="" />
-          <p>Há um dia</p>
+          <p>{createAt ? PublishedDateRelativeToNow(createAt) : ''}</p>
         </span>
         <span>
           <img src={CommentImg} alt="" />

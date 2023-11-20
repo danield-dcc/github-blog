@@ -6,10 +6,12 @@ import {
   HeaderTittle,
 } from './styles'
 
-import { format, formatDistanceToNow } from 'date-fns'
-import ptBR from 'date-fns/locale/pt-BR'
 import { useNavigate } from 'react-router-dom'
 import Markdown from 'react-markdown'
+import {
+  PublishedDateFormatted,
+  PublishedDateRelativeToNow,
+} from '../../utils/PublishedDateFormatted'
 
 interface BlogCardProps {
   id: number
@@ -20,18 +22,6 @@ interface BlogCardProps {
 
 export function BlogCard({ body, createdAt, title, id }: BlogCardProps) {
   const navigate = useNavigate()
-  const publishedDateFormatted = format(
-    new Date(createdAt),
-    "d 'de' LLLL 'às' HH:mm'h'",
-    {
-      locale: ptBR,
-    },
-  )
-
-  const publishedDateRelativeToNow = formatDistanceToNow(new Date(createdAt), {
-    locale: ptBR,
-    addSuffix: true,
-  })
 
   function handleFormatInitialContent(body: string) {
     return body?.slice(0, 172).concat('...')
@@ -46,10 +36,10 @@ export function BlogCard({ body, createdAt, title, id }: BlogCardProps) {
       <CardHeader>
         <HeaderTittle>{title}</HeaderTittle>
         <HeaderTime
-          title={publishedDateFormatted}
+          title={PublishedDateFormatted(createdAt)}
           dateTime={new Date(createdAt).toISOString()}
         >
-          <p>{publishedDateRelativeToNow}</p>
+          <p>{PublishedDateRelativeToNow(createdAt)}</p>
         </HeaderTime>
       </CardHeader>
       <CardContent>

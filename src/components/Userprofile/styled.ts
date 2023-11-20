@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const Container = styled.div`
@@ -36,12 +37,13 @@ export const Tittle = styled.p`
   color: ${(props) => props.theme.baseTitle};
 `
 
-export const TittleLink = styled.span`
+export const TittleLink = styled(Link)`
   display: flex;
   align-items: center;
   gap: 6px;
   border-bottom: 1px solid ${(props) => props.theme.baseProfile};
   cursor: pointer;
+  text-decoration: none;
 
   p {
     font-size: ${(props) => props.theme.font.fontSize.xs};

@@ -11,10 +11,11 @@ export function Post() {
   const { issueNumber } = useParams()
   const { fetchOnePost } = useUserBlogContext()
   const [postBody, setPostBody] = useState('')
+  const [createdAtDate, setCreatedAtDate] = useState('')
 
   const fetchPostData = useCallback(async () => {
     const postData = await fetchOnePost(Number(issueNumber))
-
+    setCreatedAtDate(postData.data.created_at)
     setPostBody(postData.data.body)
   }, [fetchOnePost, issueNumber])
 
@@ -24,7 +25,7 @@ export function Post() {
 
   return (
     <Container>
-      <PostCard issueNumber={issueNumber} />
+      <PostCard issueNumber={issueNumber} createAt={createdAtDate} />
 
       <PostBody>
         <ReactMarkdown
